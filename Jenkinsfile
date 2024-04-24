@@ -28,7 +28,6 @@ pipeline {
                 ]) {
                     echo "check"
                     sh "packer init aws-ami-v1.pkr.hcl"
-                    echo "init start completefd"
                     sh "packer build aws-ami-v1.pkr.hcl"
                 }
             }
