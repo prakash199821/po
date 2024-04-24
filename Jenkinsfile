@@ -14,7 +14,7 @@ pipeline {
                 ]) {
                     sh "aws s3 ls"
                 }
-                echo "Hello"
+                
             }
         }
 
