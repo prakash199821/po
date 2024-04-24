@@ -27,7 +27,7 @@ pipeline {
                     ]
                 ]) {
                     echo "check"
-                    git branch: 'main', url: 'https://github.com/prakash199821/po.git'
+                    sh "git clone https://github.com/prakash199821/po.git"
                     sh "packer init aws-ami-v1.pkr.hcl"
                     sh "packer build aws-ami-v1.pkr.hcl"
                 }
