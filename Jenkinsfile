@@ -26,8 +26,6 @@ pipeline {
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]
                 ]) {
-                    echo "check"
-                    sh "git clone https://github.com/prakash199821/po.git"
                     sh "packer init aws-ami-v1.pkr.hcl"
                     sh "packer build aws-ami-v1.pkr.hcl"
                 }
