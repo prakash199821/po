@@ -1,19 +1,35 @@
+
 pipeline {
     agent any
-    
-    environment {
-        // Define environment variables for the AWS access key and secret key
-        credentialsId: 'AWS',
-    }
-
     stages {
-        stage('Example Stage') {
+        stage("AWS Demo") {
             steps {
-                // Your pipeline steps here
-                echo "AWS Access Key ID: ${AWS_ACCESS_KEY_ID}"
-                echo "AWS Secret Access Key: ${AWS_SECRET_ACCESS_KEY}"
+                withCredentials([
+                    [
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: 'AWS',
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]
+                ]) {
+                    sh "aws s3 ls"
+                }
+            }
+        }
+        stage("Building AMI") {
+            steps {
+                withCredentials([
+                    [
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: 'aws_credential',
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]
+                ]) {
+                    sh "packer init aws-ami-v1.pkr.hcl"
+                    sh "packer build aws-ami-v1.pkr.hcl"
+                }
             }
         }
     }
 }
-
